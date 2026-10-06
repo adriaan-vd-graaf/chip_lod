@@ -1,4 +1,4 @@
-# Part I (frequentist analyses) and the worked Bayesian example of Part II.
+# Part I (frequentist analyses).
 # Mirrors the corresponding functions in python/src/chip_lod/analyses.py.
 
 F1_HEADER <- c("error_rate", "depth", "lambda_bg", "k_star", "actual_alpha", "lod_vaf")
@@ -138,61 +138,5 @@ freq_summary <- function(params, f1, f2, f4) {
     by_error_rate = by_e,
     required_depth = req,
     sim_fp = sim_fp
-  )
-}
-
-run_b0_likelihoods <- function(params, model) {
-  c <- params$bayes_example
-  n <- as.integer(c$depth); e <- as.numeric(c$error_rate)
-  vafs <- as.numeric(c$likelihood_vafs)
-  header <- c("alt_reads", "p_error_only", "p_variant_average", paste0("p_vaf_", seq_along(vafs)))
-  rows <- list()
-  for (k in 0:as.integer(c$likelihood_k_max)) {
-    lm <- log_marginals(model, k, n, e)
-    row <- list(k, exp(lm[1]), exp(lm[2]))
-    for (v in vafs) row[[length(row) + 1]] <- pois_pmf(k, n * alt_fraction(v, e))
-    rows[[length(rows) + 1]] <- row
-  }
-  rows_to_df(rows, header)
-}
-
-bayes_example_summary <- function(params, model) {
-  c <- params$bayes_example
-  n <- as.integer(c$depth); k <- as.integer(c$alt_reads); e <- as.numeric(c$error_rate)
-  cohort <- as.integer(c$cohort)
-  lm <- log_marginals(model, k, n, e)
-  m0 <- exp(lm[1]); m1 <- exp(lm[2]); m1ge <- exp(lm[3])
-  bf <- exp(lm[2] - lm[1])
-  by_prior <- list()
-  for (prior in as.numeric(c$priors)) {
-    post <- posteriors(model, k, n, e, prior)
-    carriers <- cohort * prior
-    noncarriers <- cohort * (1 - prior)
-    prior_odds <- prior / (1 - prior)
-    by_prior[[length(by_prior) + 1]] <- list(
-      prior = prior,
-      carriers = carriers,
-      noncarriers = noncarriers,
-      carriers_with_k = carriers * m1,
-      carriers_with_k_vaf_ge_thr = carriers * m1ge,
-      noncarriers_with_k = noncarriers * m0,
-      prior_odds = prior_odds,
-      posterior_odds = prior_odds * bf,
-      p_h1 = post[1],
-      p_vaf_ge_thr = post[2]
-    )
-  }
-  list(
-    depth = n,
-    alt_reads = k,
-    error_rate = e,
-    cohort = cohort,
-    lambda_bg = n * (e / 3),
-    likelihood_vafs = as.list(as.numeric(c$likelihood_vafs)),
-    m0 = m0,
-    m1 = m1,
-    m1_vaf_ge_thr = m1ge,
-    bayes_factor = bf,
-    by_prior = by_prior
   )
 }

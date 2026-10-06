@@ -5,24 +5,15 @@ from scipy import stats
 
 from chip_lod import io, lod
 from chip_lod.model import (
-    Model,
     alt_fraction,
     logfact,
     pois_cdf,
     pois_pmf,
     pois_upper_tail,
-    prob_ccf_above_flat,
-    prob_ccf_above_flat_grid,
-    vaf_grid,
 )
 from chip_lod.rng import MinStd
 
 E = 0.001
-
-
-@pytest.fixture(scope="module")
-def model():
-    return Model()
 
 
 # --- RNG -----------------------------------------------------------------------------------
@@ -121,43 +112,12 @@ def test_upper_tail_matches_scipy(lam):
         assert got == pytest.approx(ref, rel=1e-10, abs=1e-300)
 
 
-# --- flat-prior helper ---------------------------------------------------------------------------
-
-@pytest.mark.parametrize("k,n,x", [(0, 100, 0.02), (3, 100, 0.02), (5, 1000, 0.01), (20, 1000, 0.04), (2, 50, 0.0)])
-def test_flat_prior_closed_form_equals_grid(k, n, x):
-    closed = prob_ccf_above_flat(k, n, x)
-    grid = prob_ccf_above_flat_grid(k, n, x)
-    assert closed == pytest.approx(grid, abs=1e-6)
-    assert closed == pytest.approx(stats.gamma.sf(n * x / 2, k + 1), abs=1e-10)
-
-
 # --- model pieces --------------------------------------------------------------------------------
 
 def test_alt_fraction():
     assert alt_fraction(0.0, E) == pytest.approx(E / 3)
     assert alt_fraction(1.0, E) == pytest.approx(1 - E)
     assert alt_fraction(0.02, 0.0) == 0.02
-
-
-def test_vaf_grid():
-    g = vaf_grid(1e-4, 0.5, 2000)
-    assert len(g) == 2000
-    assert g[0] > 1e-4 and g[-1] < 0.5
-    assert all(a < b for a, b in zip(g, g[1:]))
-    # midpoints in log space: geometric mean of the first point's neighbours
-    assert g[0] == pytest.approx(10 ** (math.log10(1e-4) + 0.5 / 2000 * (math.log10(0.5) - math.log10(1e-4))), rel=1e-13)
-
-
-def test_posterior_matches_direct_formula(model):
-    n, k, prior = 200, 3, 0.1
-    lam0 = n * E / 3
-    m0 = stats.poisson.pmf(k, lam0)
-    m1 = sum(stats.poisson.pmf(k, n * alt_fraction(p, E)) for p in model.grid) / len(model.grid)
-    m1ge = sum(stats.poisson.pmf(k, n * alt_fraction(p, E)) for p in model.grid if p >= 0.02) / len(model.grid)
-    h1, thr = model.posteriors(k, n, E, prior)
-    den = prior * m1 + (1 - prior) * m0
-    assert h1 == pytest.approx(prior * m1 / den, rel=1e-10)
-    assert thr == pytest.approx(prior * m1ge / den, rel=1e-10)
 
 
 # --- frequentist ---------------------------------------------------------------------------------
@@ -191,80 +151,30 @@ def test_lod_decreases_with_depth():
     assert all(a > b for a, b in zip(lods, lods[1:]))
 
 
-# --- Bayesian monotonicity -------------------------------------------------------------------------
-
-@pytest.mark.parametrize("n", [10, 50, 800, 1000, 1200])
-@pytest.mark.parametrize("prior", [0.001, 0.01, 0.5])
-def test_p_h1_increases_with_k(model, n, prior):
-    ps = [model.p_h1(k, n, E, prior) for k in range(0, 40)]
-    assert all(a <= b for a, b in zip(ps, ps[1:]))
-    assert ps[0] < ps[-1]
-
-
-@pytest.mark.parametrize("k", [0, 1, 2, 5])
-def test_p_h1_increases_with_prior(model, k):
-    ps = [model.p_h1(k, 100, E, pi) for pi in [0.001, 0.01, 0.1, 0.5, 0.9]]
-    assert all(a < b for a, b in zip(ps, ps[1:]))
-
-
-def test_expected_p_h1_increases_with_depth(model):
-    ex = [model.expected_posteriors(0.02, n, E, 0.01)[0] for n in [25, 50, 100, 200, 500, 1000]]
-    assert all(a < b for a, b in zip(ex, ex[1:]))
-
-
-def test_expected_posterior_matches_direct_sum(model):
-    n, p, prior = 100, 0.02, 0.5
-    lam = n * alt_fraction(p, E)
-    ref = sum(stats.poisson.pmf(k, lam) * model.p_h1(k, n, E, prior) for k in range(200))
-    assert model.expected_posteriors(p, n, E, prior)[0] == pytest.approx(ref, rel=1e-12)
-
-
-def test_k_required(model):
-    k1 = lod.k_h1(model, 1000, E, 0.01)
-    assert model.p_h1(k1, 1000, E, 0.01) >= 0.95
-    assert model.p_h1(k1 - 1, 1000, E, 0.01) < 0.95
-    kt = lod.k_thr(model, 1000, E, 0.5)
-    assert model.p_vaf_ge_thr(kt, 1000, E, 0.5) >= 0.95
-    assert model.p_vaf_ge_thr(kt - 1, 1000, E, 0.5) < 0.95
-    # with prior 0 nothing ever qualifies
-    assert lod.k_h1(model, 50, E, 0.0) is None
-
-
 # --- edge cases ---------------------------------------------------------------------------------
 
-def test_k_zero(model):
-    h1, thr = model.posteriors(0, 1000, E, 0.5)
-    assert 0 < h1 < 0.5 and 0 <= thr < h1
+def test_k_zero():
     assert lod.pvalue(0, 1000, E) == 1.0
+    assert lod.lod_frequentist([1000], [0], E)["called"] == [False]
 
 
-def test_zero_error_rate(model):
-    # no errors: a single alt read proves the variant
-    assert model.p_h1(1, 100, 0.0, 0.01) == 1.0
-    assert model.p_h1(0, 100, 0.0, 0.5) < 0.5
+def test_zero_error_rate():
+    # no errors: a single alt read is significant
     assert lod.pvalue(1, 100, 0.0) == 0.0
     assert lod.k_star(100, 0.0, 0.05) == 1
     p = lod.lod_vaf(100, 0.0, 0.05)
     assert p == pytest.approx(-math.log(0.05) / 100, rel=1e-9)
 
 
-def test_prior_extremes(model):
-    for k in [0, 2, 10]:
-        assert model.posteriors(k, 200, E, 0.0) == (0.0, 0.0)
-        h1, thr = model.posteriors(k, 200, E, 1.0)
-        assert h1 == 1.0
-        assert 0.0 <= thr <= 1.0
-
-
 @pytest.mark.parametrize("n", [10**6, 10**8])
-def test_large_depth_no_nan(model, n):
-    for k in [0, 1, n * E / 3, n * 0.02]:
-        k = int(k)
-        h1, thr = model.posteriors(k, n, E, 0.01)
-        assert math.isfinite(h1) and math.isfinite(thr)
-        assert 0.0 <= thr <= h1 <= 1.0
-    assert model.p_h1(int(n * 0.02), n, E, 0.01) == pytest.approx(1.0)
-    assert model.p_h1(0, n, E, 0.01) == pytest.approx(0.0, abs=1e-12)
+def test_large_depth_no_nan(n):
+    for k in [0, 1, int(n * E / 3), int(n * 0.02)]:
+        pv = lod.pvalue(k, n, E)
+        # the tail is a sum of many pmf terms, so it may exceed 1 by the D2 rounding bound
+        lam = n * E / 3
+        assert math.isfinite(pv) and 0.0 <= pv <= 1.0 + _cancellation_tol(int(lam), lam)
+    assert lod.pvalue(int(n * 0.02), n, E) == 0.0
+    assert lod.pvalue(0, n, E) == 1.0
 
 
 def test_large_depth_lod():

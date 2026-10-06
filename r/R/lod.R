@@ -24,9 +24,6 @@ lod_vaf <- function(n, e, alpha, target = 0.95, kstar = NULL) {
   hi
 }
 
-k_h1 <- function(model, n, e, prior) k_required(model, n, e, prior, "h1")
-k_thr <- function(model, n, e, prior) k_required(model, n, e, prior, "thr")
-
 # Frequentist call and assay LoD for vectors of depths n and alt-read counts k.
 # For each site: lambda_bg = n e/3, pvalue = P(K >= k | lambda_bg), k_star(n), called = k >= k_star,
 # lod_vaf = smallest VAF detected with probability >= power_target at depth n using k_star

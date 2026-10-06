@@ -1,12 +1,8 @@
 {
   "model": {
-    "p_min": 1.000000000000e-04,
-    "p_max": 5.000000000000e-01,
-    "grid_size": 2000,
-    "p_thr": 2.000000000000e-02,
-    "tau": 9.500000000000e-01,
+    "alpha": 5.000000000000e-02,
     "power": 9.500000000000e-01,
-    "alpha": 5.000000000000e-02
+    "chip_vaf": 2.000000000000e-02
   },
   "f": {
     "alpha": 5.000000000000e-02,
@@ -91,80 +87,6 @@
       }
     ]
   },
-  "bayes_example": {
-    "depth": 1000,
-    "alt_reads": 3,
-    "error_rate": 1.000000000000e-03,
-    "cohort": 10000,
-    "lambda_bg": 3.333333333333e-01,
-    "likelihood_vafs": [
-      2.000000000000e-03,
-      5.000000000000e-03,
-      2.000000000000e-02
-    ],
-    "m0": 4.423032781320e-03,
-    "m1": 4.717090073960e-02,
-    "m1_vaf_ge_thr": 1.387073604089e-08,
-    "bayes_factor": 1.066483181830e+01,
-    "by_prior": [
-      {
-        "prior": 1.000000000000e-02,
-        "carriers": 1.000000000000e+02,
-        "noncarriers": 9.900000000000e+03,
-        "carriers_with_k": 4.717090073960e+00,
-        "carriers_with_k_vaf_ge_thr": 1.387073604089e-06,
-        "noncarriers_with_k": 4.378802453506e+01,
-        "prior_odds": 1.010101010101e-02,
-        "posterior_odds": 1.077255739222e-01,
-        "p_h1": 9.724933364207e-02,
-        "p_vaf_ge_thr": 2.859644009235e-08
-      },
-      {
-        "prior": 5.000000000000e-01,
-        "carriers": 5.000000000000e+03,
-        "noncarriers": 5.000000000000e+03,
-        "carriers_with_k": 2.358545036980e+02,
-        "carriers_with_k_vaf_ge_thr": 6.935368020447e-05,
-        "noncarriers_with_k": 2.211516390660e+01,
-        "prior_odds": 1.000000000000e+00,
-        "posterior_odds": 1.066483181830e+01,
-        "p_h1": 9.142722316466e-01,
-        "p_vaf_ge_thr": 2.688443213052e-07
-      }
-    ]
-  },
-  "a1": {
-    "depth": 20,
-    "alt_reads": 2,
-    "error_rate": 1.000000000000e-03,
-    "pvalue": 2.212370326536e-05,
-    "prior_low": 1.000000000000e-03,
-    "prior_high": 5.000000000000e-01,
-    "p_h1_prior_low": 7.281771742987e-01,
-    "p_h1_prior_high": 9.996264737544e-01,
-    "p_vaf_ge_thr_prior_low": 6.807927872034e-01,
-    "p_vaf_ge_thr_prior_high": 9.345781730731e-01
-  },
-  "a2": {
-    "error_rate": 1.000000000000e-03,
-    "true_vaf": 2.000000000000e-02,
-    "n_null_sites": 1400,
-    "sim_fp_rate_freq": 2.071428571429e-02,
-    "by_prior": [
-      {
-        "prior": 1.000000000000e-02,
-        "depth_expected_p_h1_ge_tau": 500,
-        "depth_expected_p_vaf_ge_thr_ge_tau": null,
-        "sim_fp_rate_bayes": 0.000000000000e+00
-      },
-      {
-        "prior": 5.000000000000e-01,
-        "depth_expected_p_h1_ge_tau": 200,
-        "depth_expected_p_vaf_ge_thr_ge_tau": null,
-        "sim_fp_rate_bayes": 0.000000000000e+00
-      }
-    ]
-  },
   "a3": {
     "depth": 1000,
     "error_rate": 1.000000000000e-03,
@@ -172,21 +94,7 @@
     "lambda_bg": 3.333333333333e-01,
     "k_star": 2,
     "lod_vaf": 4.416419744717e-03,
-    "sim_prior": 1.000000000000e-02,
-    "by_prior": [
-      {
-        "prior": 1.000000000000e-02,
-        "k_h1": 6,
-        "k_thr": 29
-      },
-      {
-        "prior": 5.000000000000e-01,
-        "k_h1": 4,
-        "k_thr": 29
-      }
-    ],
     "sim_n_null_sites": 500,
-    "sim_fp_rate_freq": 3.200000000000e-02,
-    "sim_fp_rate_bayes": 0.000000000000e+00
+    "sim_fp_rate_freq": 3.200000000000e-02
   }
 }

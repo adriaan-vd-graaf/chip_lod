@@ -79,12 +79,6 @@ sim_f <- function(params) {
                        as.numeric(c$true_vafs), as.integer(c$replicates))
 }
 
-sim_a2 <- function(params) {
-  c <- params$simulation$sim_a2
-  simulate_fixed_depths(as.numeric(c$seed), as.numeric(c$error_rate), as.integer(c$depths),
-                        as.numeric(c$true_vafs), as.integer(c$replicates))
-}
-
 sim_a3 <- function(params) {
   c <- params$simulation$sim_a3
   simulate_variable_depth(as.numeric(c$seed), as.numeric(c$error_rate), as.integer(c$depth_lo),

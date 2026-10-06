@@ -1,4 +1,4 @@
-"""Frequentist critical value, power and LoD VAF; Bayesian required read counts."""
+"""Frequentist critical value, power, LoD VAF and the vectorised lod_frequentist()."""
 
 from .model import alt_fraction, pois_upper_tail
 
@@ -41,16 +41,6 @@ def lod_vaf(n, e, alpha, target=0.95, kstar=None):
         else:
             lo = mid
     return hi
-
-
-def k_h1(model, n, e, prior):
-    """Smallest k with P(H1 | k) >= tau (None if none in 0..n)."""
-    return model.k_required(n, e, prior, "h1")
-
-
-def k_thr(model, n, e, prior):
-    """Smallest k with P(p >= p_thr | k) >= tau (None if none in 0..n)."""
-    return model.k_required(n, e, prior, "thr")
 
 
 def _as_list(x):

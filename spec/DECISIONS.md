@@ -2,6 +2,11 @@
 
 Each entry applies to both the Python and the R implementation unless stated otherwise.
 
+**Branch `poisson-frequentist-only` (D27):** the Bayesian analysis was removed at the user's request, because
+there is no good prior information. Entries that concern only the Bayesian part (D3, D5, D7, D8, D11 for the
+removed nulls, D17, D26) are obsolete on this branch and kept only for history; see branch
+`poission-frequentist-and-bayesian`.
+
 ## Numerics
 
 **D1. Upper tail summed from k upward, never as 1 − cdf.**
@@ -133,6 +138,27 @@ target power.
 pipeline, not in the report.** The head counts (cohort·π·m1 and cohort·(1 − π)·m0), the Bayes factor exp(log m1 − log m0)
 and the odds are therefore byte-checked between Python and R like every other number. The posterior shown is
 the model's P(H1 | k), which equals carriers_with_k / (carriers_with_k + noncarriers_with_k) up to rounding.
+
+## Branch poisson-frequentist-only
+
+**D27. Bayesian analysis removed.** The following were dropped:
+- analyses a1 (prior sensitivity) and a2 (posterior against depth), together with their simulation sim_a2;
+- the Bayesian worked example (b0_likelihoods.csv and the summary.json bayes_example section);
+- the log-uniform prior grid, marginal likelihoods, posteriors, expected posteriors, k_H1/k_thr;
+- the flat-prior helper, which is itself a posterior under a flat prior;
+- the tests that covered only these parts, in both languages.
+
+Analysis a3 was kept in its frequentist form:
+- a3_read_table.csv: alt_reads, pvalue
+- a3_thresholds.csv: k*, actual false-positive rate and LoD at α = 0.05 and 0.001
+- a3_sim_sensitivity.csv: frequentist call rate with an n_called column
+
+`model` in params.json now holds only alpha, power and chip_vaf (0.02, the CHIP threshold quoted in the report).
+The f1–f5, sim_f and sim_a3 outputs are byte-identical to those on the Bayesian branch.
+
+**D28. Large-depth p-value test tolerance.** At depth 10^8, P(K ≥ 1) is a sum of more than 3·10^5 pmf terms and comes
+out at 1 + 4.5e−11. The test allows the D2 rounding bound at that λ (about 1.5e−8) above 1 rather than requiring
+≤ 1 exactly. The posterior-based large-depth test it replaces did not exercise this case.
 
 ## Environment
 

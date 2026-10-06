@@ -59,13 +59,6 @@ def simulate_variable_depth(seed, e, depth_lo, depth_hi, true_vafs, replicates):
     return rows
 
 
-def sim_a2(params):
-    c = params["simulation"]["sim_a2"]
-    return simulate_fixed_depths(int(c["seed"]), float(c["error_rate"]),
-                                 [int(d) for d in c["depths"]],
-                                 [float(p) for p in c["true_vafs"]], int(c["replicates"]))
-
-
 def sim_a3(params):
     c = params["simulation"]["sim_a3"]
     return simulate_variable_depth(int(c["seed"]), float(c["error_rate"]),
