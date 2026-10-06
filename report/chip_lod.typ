@@ -106,7 +106,7 @@ It needs only a model of the errors. Here is the procedure at depth #F.reference
   of rare, independent events.
 + *p-value.* The p-value of $k$ reads is the probability that errors alone produce $k$ _or more_ variant reads.
   #for r in ref-ex [With $k$ = #r.k the p-value is #prob(r.pvalue). ]
-+ *Critical value $k^*$.* We call the variant when the p-value is at most $alpha$ = #F.alpha, i.e. when errors would
++ *Read-count limit of detection $k^*$.* We call the variant when the p-value is at most $alpha$ = #F.alpha, i.e. when errors would
   produce that many reads in fewer than #calc.round(F.alpha * 100)% of variant-free samples. The smallest such
   count is $k^*$ = *#F.k_star*. Because read counts are whole numbers, the actual false-positive rate is
   #prob(F.actual_alpha), a little below $alpha$.
@@ -287,7 +287,7 @@ site is called, and the LoD at that depth.
 *Methods paragraph* (for a paper; also in `spec/methods_lod_frequentist.txt`):
 
 #block(inset: 10pt, stroke: 0.5pt + luma(160), radius: 4pt, width: 100%, text(size: 9.5pt,
-  read("../spec/methods_lod_frequentist.txt")))
+  read("../spec/methods_lod_frequentist.txt").replace("\n", " ").trim()))
 
 = In practice: a panel at depth #s.a3.depth
 
@@ -330,7 +330,7 @@ At $e$ = #s.a3.error_rate the background is #fmt(s.a3.lambda_bg, d: 3) error rea
       ([#r.k_star], prob(r.actual_alpha), pct(r.lod_vaf))
     }).flatten())).flatten(),
   ),
-  caption: [Critical value, actual false-positive rate and LoD around depth #s.a3.depth for a lenient and a strict
+  caption: [Read-count limit $k^*$, actual false-positive rate and LoD around depth #s.a3.depth for a lenient and a strict
     $alpha$ (`a3_thresholds.csv`).],
 )
 
