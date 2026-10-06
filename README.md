@@ -2,9 +2,7 @@
 
 Limit of detection (LoD) for a specific somatic variant in clonal haematopoiesis (CHIP). Given k alternate reads at
 depth n, the package asks whether the variant is above the LoD, using a frequentist Poisson test against the
-sequencing-error background. (This branch, `poisson-frequentist-only`, has no Bayesian analysis; the version with a
-Bayesian posterior is on branch `poission-frequentist-and-bayesian`.) See `spec/MODEL.md` for the
-model and `spec/DECISIONS.md` for the judgement calls.
+sequencing-error background. 
 
 ## Layout
 
