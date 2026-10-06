@@ -1,0 +1,16 @@
+vmType: "vz"          # native Virtualization.framework on Apple Silicon
+
+images:
+  - location: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-arm64.img"
+    arch: "aarch64"
+  - location: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.img"
+    arch: "x86_64"
+
+# The ONLY host path shared into the VM. Nothing else is visible.
+mounts:
+  - location: "/Users/avanderg/epfl_interim/chip_lod"
+    writable: true     # writable so Claude can develop in it
+
+cpus: 4
+memory: "16GiB"
+disk: "20GiB"

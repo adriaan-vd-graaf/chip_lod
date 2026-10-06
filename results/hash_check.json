@@ -1,0 +1,86 @@
+{
+  "files": {
+    "a1_prior_sensitivity.csv": {
+      "python": "e8272036be28b259167d62c63c017d1fb2b5a5e711646cf4492d3f2779485ffe",
+      "r": "e8272036be28b259167d62c63c017d1fb2b5a5e711646cf4492d3f2779485ffe",
+      "match": true
+    },
+    "a2_depth_curve_analytic.csv": {
+      "python": "f6a85019eb9cec047f0eadff2ec5a086ab5a7254c6b11871b1454cd8d99357ef",
+      "r": "f6a85019eb9cec047f0eadff2ec5a086ab5a7254c6b11871b1454cd8d99357ef",
+      "match": true
+    },
+    "a2_depth_curve_sim.csv": {
+      "python": "cbb8798b66823f3a343fd2901b83751399d49668fe9e61117ede338649f8c580",
+      "r": "cbb8798b66823f3a343fd2901b83751399d49668fe9e61117ede338649f8c580",
+      "match": true
+    },
+    "a3_read_table.csv": {
+      "python": "01ea3f769559cd55391fc893069b8927d1e4013bf345fa6af3e73e6de0494e1a",
+      "r": "01ea3f769559cd55391fc893069b8927d1e4013bf345fa6af3e73e6de0494e1a",
+      "match": true
+    },
+    "a3_sim_sensitivity.csv": {
+      "python": "c38630e34c2b3c26c6054c59b196824371b91ab5a7e779aeaf883c82e6d788e7",
+      "r": "c38630e34c2b3c26c6054c59b196824371b91ab5a7e779aeaf883c82e6d788e7",
+      "match": true
+    },
+    "a3_thresholds.csv": {
+      "python": "69ec3446bd7a7537cf6083597c531d3c9cada2db2a0f7d877d281e68ee0196ce",
+      "r": "69ec3446bd7a7537cf6083597c531d3c9cada2db2a0f7d877d281e68ee0196ce",
+      "match": true
+    },
+    "b0_likelihoods.csv": {
+      "python": "ae10b04724ca3b10cfb6554cf0e52f7cbccdfe9998a2cd3894b8b2d44794f521",
+      "r": "ae10b04724ca3b10cfb6554cf0e52f7cbccdfe9998a2cd3894b8b2d44794f521",
+      "match": true
+    },
+    "f1_lod_grid.csv": {
+      "python": "00b4d11df4f61be7ddaffabb9522b5f515e0ac4686033edddeef481d10750a1c",
+      "r": "00b4d11df4f61be7ddaffabb9522b5f515e0ac4686033edddeef481d10750a1c",
+      "match": true
+    },
+    "f2_required_depth.csv": {
+      "python": "b4e9249abbf100fc0b013fc1a6838995776903e8f0d9c5a21a6379aa5345636b",
+      "r": "b4e9249abbf100fc0b013fc1a6838995776903e8f0d9c5a21a6379aa5345636b",
+      "match": true
+    },
+    "f3_power_curve.csv": {
+      "python": "b07ff7605f6e126dac9710cfa871e77a4c47a9ffccdbab0254de6993c13fabed",
+      "r": "b07ff7605f6e126dac9710cfa871e77a4c47a9ffccdbab0254de6993c13fabed",
+      "match": true
+    },
+    "f4_sim_power.csv": {
+      "python": "e9588c9c469b8cb4ee2d20ba39ef33604f4283a38c43eb01a5adf5e3596909ec",
+      "r": "e9588c9c469b8cb4ee2d20ba39ef33604f4283a38c43eb01a5adf5e3596909ec",
+      "match": true
+    },
+    "f5_lod_function_example.csv": {
+      "python": "26b186538aa1f161b273968629bdeecba12f6e10ee7d0424c86c155dc0f22979",
+      "r": "26b186538aa1f161b273968629bdeecba12f6e10ee7d0424c86c155dc0f22979",
+      "match": true
+    },
+    "sim_a2.csv": {
+      "python": "fd75d055dca44bc65e8b71f46026b66bb4cad863bf05bb16484363da2a0818e9",
+      "r": "fd75d055dca44bc65e8b71f46026b66bb4cad863bf05bb16484363da2a0818e9",
+      "match": true
+    },
+    "sim_a3.csv": {
+      "python": "99f2ba0917c05a33e99763718e0c214d4e88b8acaec8939915d4ecc6e998f1fb",
+      "r": "99f2ba0917c05a33e99763718e0c214d4e88b8acaec8939915d4ecc6e998f1fb",
+      "match": true
+    },
+    "sim_f.csv": {
+      "python": "1d9bd914c6faab9273f98c0b7992a8db5df9e29d29467939dbd611e3625df494",
+      "r": "1d9bd914c6faab9273f98c0b7992a8db5df9e29d29467939dbd611e3625df494",
+      "match": true
+    },
+    "summary.json": {
+      "python": "d9dfd142338cc33aef5c85b49fa13c6c20692feb82d966d756a353ec09b4f352",
+      "r": "d9dfd142338cc33aef5c85b49fa13c6c20692feb82d966d756a353ec09b4f352",
+      "match": true
+    }
+  },
+  "n_files": 16,
+  "all_match": true
+}

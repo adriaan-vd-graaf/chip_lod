@@ -1,0 +1,80 @@
+{
+  "model": {
+    "p_min": 0.0001,
+    "p_max": 0.5,
+    "grid_size": 2000,
+    "p_thr": 0.02,
+    "tau": 0.95,
+    "power": 0.95,
+    "alpha": 0.05
+  },
+  "freq": {
+    "error_rates": [0.0001, 0.0005, 0.001, 0.002, 0.005, 0.01],
+    "depths": [100, 200, 500, 1000, 2000, 5000, 10000],
+    "reference_depth": 1000,
+    "reference_error_rate": 0.001,
+    "power_depths": [200, 500, 1000, 2000, 5000],
+    "vaf_max": 0.02,
+    "vaf_steps": 80,
+    "target_vafs": [0.005, 0.01, 0.02],
+    "max_depth_search": 100000,
+    "example_n": [500, 1000, 1000, 1000, 1000, 2000],
+    "example_k": [3, 0, 1, 2, 5, 3]
+  },
+  "bayes_example": {
+    "depth": 1000,
+    "alt_reads": 3,
+    "error_rate": 0.001,
+    "priors": [0.01, 0.5],
+    "cohort": 10000,
+    "likelihood_k_max": 15,
+    "likelihood_vafs": [0.002, 0.005, 0.02]
+  },
+  "a1": {
+    "depths": [10, 20, 50],
+    "alt_reads": [0, 1, 2, 3, 4, 5],
+    "priors": [0.001, 0.01, 0.1, 0.5],
+    "error_rates": [0.001, 0.005],
+    "example": {"depth": 20, "alt_reads": 2, "error_rate": 0.001, "prior_low": 0.001, "prior_high": 0.5}
+  },
+  "a2": {
+    "error_rate": 0.001,
+    "depths": [25, 50, 100, 200, 500, 1000, 2000, 5000, 10000],
+    "priors": [0.01, 0.5],
+    "true_vaf": 0.02
+  },
+  "a3": {
+    "error_rate": 0.001,
+    "depth": 1000,
+    "alt_reads_max": 30,
+    "priors": [0.01, 0.5],
+    "threshold_depths": [800, 1000, 1200],
+    "alphas": [0.05, 0.001],
+    "sim_alpha": 0.05,
+    "sim_prior": 0.01
+  },
+  "simulation": {
+    "sim_f": {
+      "seed": 20240603,
+      "error_rates": [0.001, 0.005],
+      "depths": [200, 500, 1000, 2000],
+      "true_vafs": [0.0, 0.001, 0.0025, 0.005, 0.01, 0.02],
+      "replicates": 400
+    },
+    "sim_a2": {
+      "seed": 20240601,
+      "error_rate": 0.001,
+      "depths": [50, 100, 200, 500, 1000, 2000, 5000],
+      "true_vafs": [0.0, 0.02],
+      "replicates": 200
+    },
+    "sim_a3": {
+      "seed": 20240602,
+      "error_rate": 0.001,
+      "depth_lo": 800,
+      "depth_hi": 1200,
+      "true_vafs": [0.0, 0.001, 0.0025, 0.005, 0.01, 0.02, 0.05],
+      "replicates": 500
+    }
+  }
+}
