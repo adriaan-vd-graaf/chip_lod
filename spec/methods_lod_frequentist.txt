@@ -1,10 +1,17 @@
 Limit of detection. Sequencing errors can produce reads that look like a variant, so we first estimated how many
-such reads to expect at a site without a variant. Only about one in three base-calling errors produces the specific
+such reads to expect at a site without a variant. Only one in three base-calling errors produces the specific
 variant base, so a site sequenced to depth n with a per-base error rate e is expected to carry n·e/3 error reads,
 and we modelled their number with a Poisson distribution. From this we derived, for each depth, the read-count limit
-of detection k*: the smallest number of variant reads that errors alone produce in fewer than 5% of variant-free
-samples. A variant was called when it was supported by at least k* reads. A real heterozygous variant at variant
-allele fraction (VAF) p contributes variant reads at a rate of p(1 − e) + (1 − p)·e/3, close to p, which tells us
-how often it reaches k* reads. The VAF limit of detection is the lowest VAF that reaches k* reads in at least 95% of
-samples. Because read counts are whole numbers, the false-positive rate is at most 5% and the limit of detection does
-not decrease smoothly with depth. All values were computed with the function lod_frequentist (Python and R).
+of detection k*: the smallest number of variant reads that errors alone produce in fewer than 5% of repeated
+measurements of an otherwise variant-free site. A variant was called above detection limit when it was supported by
+at least k* reads.
+
+To find which variants this rule detects reliably, we modelled reads from a sample that does carry a variant.
+Assuming a heterozygous variant in diploid cells, a variant at allele fraction (VAF) p yields variant reads at a rate
+of p(1 − e) + (1 − p)·e/3: correct reads from the mutated copy plus misread reads from the normal copy.
+Because sequencing samples the DNA at random, the number of variant reads differs between repeated measurements of the
+same sample. The probability that it reaches k*, and the variant is called, is the detection probability (power).
+The limit of detection (LoD) is the lowest VAF detected with at least 95% power. Because k* is a whole number, the
+actual false-positive rate is usually below 5%, and the LoD does not fall smoothly with depth: it rises slightly each
+time greater depth raises k* by one read. All calculations were performed with the function lod_frequentist,
+implemented in Python and R.
